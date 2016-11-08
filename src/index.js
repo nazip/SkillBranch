@@ -8,11 +8,17 @@ const app = express();
 
 app.get("/", async (req, res) => {
   try {
-    const a = req.query.a ? +req.query.a : 0;  
-    const b = req.query.b ? +req.query.b : 0;
-    res.send(""+(0+a+b));
+    const fullname = req.query.fullname ? req.query.fullname : "";  
+    if(!fullname) throw "Invalid fullname";
+    const reg = /[\w]+/ig;
+    const matches = fullname.match(reg);
+    if((matches.length ==0) || (matches.length > 3)) throw "Invalid fullname";
+    var rez = matches[matches.length-1];  
+    for(var i=0; i < matches.length-1; i++)   
+      rez += " " + matches[i].substr(0,1) + ".";  
+    res.send(rez);
   } catch(e) {
-    return res.send("error");
+    return res.send(e);
   }
 });
 

@@ -1,9 +1,3 @@
-import express from 'express';
-import fetch from 'isomorphic-fetch';
-import promise from 'bluebird';
-
-import canonize from './canonize';
-
 const app = express();
 
 app.get("/", async (req, res) => {
@@ -19,5 +13,3 @@ app.get("/", async (req, res) => {
 app.listen(3000, () => {
   console.log("I am listening 3000 port ");
 });
-
-

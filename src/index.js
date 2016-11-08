@@ -19,8 +19,16 @@ async function getAllPok(url, i=0) {
   const response = await fetch(url);
   const page = await response.json();
   const pokemons = page.results;
-  if(page.next && i < 3) {
-    const nextpok = getFatestPok(url, i+1);
+  var n = i;
+console.log(n,page.next);
+  if(i>2) {
+    return pokemons;
+  }
+  if(page.next) {
+console.log(n,page.next);
+    n++;
+    const nextpok = getFatestPok(page.next, n);
+console.log(n,page.next);
     return [
       ...pokemons,
       ...nextpok

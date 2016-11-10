@@ -22,6 +22,17 @@ app.get("/", async (req, res) => {
   }
 });
 
+app.get("/2c", async (req, res) => {
+  try {
+    const username = req.query.username ? req.query.username : "";  
+    if(!username) throw "Invalid username";
+    res.send(canonize(username));
+  } catch(e) {
+    return res.send(e);
+  }
+});
+
+
 app.listen(3000, () => {
   console.log("I am listening 3000 port ");
 });

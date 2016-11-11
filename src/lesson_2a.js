@@ -1,8 +1,14 @@
+import express from 'express';
+import fetch from 'isomorphic-fetch';
+import Promise from 'bluebird';
+
+import canonize from './canonize';
+
 const app = express();
 
 app.get("/", async (req, res) => {
   try {
-    const a = req.query.a ? +req.query.a : 0;  
+    const a = req.query.a ? +req.query.a : 0;
     const b = req.query.b ? +req.query.b : 0;
     res.send(""+(0+a+b));
   } catch(e) {
@@ -13,3 +19,4 @@ app.get("/", async (req, res) => {
 app.listen(3000, () => {
   console.log("I am listening 3000 port ");
 });
+

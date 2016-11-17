@@ -23,30 +23,44 @@ const pc = {"board":{"vendor":"IBM",
 "length":42,
 "height":21,
 "width":54
-}
-
+};
 
 const app = express();
+const reg = /^(?:\/.+)?$/i
+const reg1 = /^[a-zA-Z]+$/i
 
-app.get("/", async (req, res) => {
+app.get(reg, async (req, res) => {
+
   try {
-    const username = req.query.username ? req.query.username : "";
-    if(!username) throw "Invalid username";
-    const reg = /([a-zA-Z]+$)|([a-zA-Z]+[\?])/g;
-    const reg1 = /[a-zA-Z]+/g;
-
-    const matches = username.match(reg);
-    if(!matches) throw "Invalid username";
-
-    res.send("@"+(""+matches).match(reg1));
+    var resp = {};
+    if(req.originalUrl.indexOf('volumes') > 0) {
+      console.log("volume", pc.hdd[0].volume);
+      for(var i=0;i<pc.hdd.length;i++) {
+        console.log("resp.'" + pc.hdd[i].volume + "'=" + 0+pc.hdd[i].size);
+        eval("resp.'" + pc.hdd[i].volume + "'' = " + 0+pc.hdd[i].size);
+      }
+      // resp = pc.hdd.map(disk, () => {
+      //   return eval("resp." + disk.volume + "+=" + 0+disk.size);
+      // });
+      console.log(resp);
+    }
+    else
+    {
+      resp = eval("pc."+ req.originalUrl.substr(1, req.originalUrl.length)
+                  .replace(/\//g, "."));
+    }
+    if(resp)
+      res.send(resp);
+    else
+      throw "fff";
   } catch(e) {
-    return res.send(e); 
+    return res.send('Not Found');
   }
 });
 
 
-app.listen(3000, () => {
-  console.log("I am listening 3000 port ");
+app.listen(4000, () => {
+  console.log("I am listening 4000 port ");
 });
 
 
